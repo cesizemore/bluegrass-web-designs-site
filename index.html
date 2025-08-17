@@ -102,6 +102,19 @@
     section{padding:4rem 0; position:relative;}
     .section-head{display:flex;align-items:end;justify-content:space-between;gap:1rem;margin-bottom:2rem}
     .section-head p{color:var(--muted)}
+    
+    /* Fix section-head on mobile */
+    @media (max-width: 640px){
+      .section-head{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:0.5rem;
+      }
+      .section-head p{
+        margin-top:0.25rem;
+        margin-bottom:0;
+      }
+    }
 
     /* THIN DIVIDERS (inset by being inside .container) */
     .has-divider .container::before{
@@ -142,10 +155,51 @@
     .plan ul{margin:.5rem 0 1rem;padding-left:1rem;color:var(--muted)}
     .plan .btn{margin-top:auto}
 
-    /* Contact */
-    form{display:grid;gap:.8rem}
-    input, textarea{width:100%;padding:.8rem;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.03);color:var(--text)}
-    input:focus, textarea:focus{outline:2px solid var(--ring);border-color:transparent}
+    /* Contact - IMPROVED FORM STYLING */
+    form{display:grid;gap:1rem;max-width:600px}
+    .form-group{position:relative}
+    input, textarea{
+      width:100%;
+      padding:1rem 1.25rem;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.15);
+      background:rgba(255,255,255,.05);
+      color:var(--text);
+      font-size:1rem;
+      transition:all .2s ease;
+    }
+    input::placeholder, textarea::placeholder{
+      color:rgba(255,255,255,.5);
+    }
+    input:focus, textarea:focus{
+      outline:2px solid var(--ring);
+      border-color:var(--accent);
+      background:rgba(255,255,255,.08);
+      transform:translateY(-1px);
+      box-shadow:0 8px 25px rgba(0,0,0,.15);
+    }
+    .form-status{
+      padding:.75rem 1rem;
+      border-radius:12px;
+      margin-top:1rem;
+      font-weight:500;
+      display:none;
+    }
+    .form-status.success{
+      background:rgba(34,197,94,.1);
+      border:1px solid rgba(34,197,94,.3);
+      color:#4ade80;
+    }
+    .form-status.error{
+      background:rgba(239,68,68,.1);
+      border:1px solid rgba(239,68,68,.3);
+      color:#f87171;
+    }
+    .btn[disabled]{
+      opacity:.6;
+      cursor:not-allowed;
+      transform:none !important;
+    }
 
     footer{padding:2rem 0;color:var(--muted);border-top:1px solid var(--divider)}
 
@@ -414,17 +468,34 @@
   <section id="contact" class="has-divider">
     <div class="container">
       <div class="section-head">
-        <h2>Contact Us</h2>
-        <p>Book a free strategy session or ask about our services.</p>
+        <div>
+          <h2>Contact Us</h2>
+          <p>Book a free strategy session or ask about our services.</p>
+        </div>
       </div>
-      <!-- Netlify-ready static form (optional) -->
-      <form name="contact" method="post" data-netlify="true">
-        <input type="hidden" name="form-name" value="contact">
-        <input type="text" name="name" placeholder="Your Name" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <textarea id="message" name="message" rows="4" placeholder="Message"></textarea>
-        <button class="btn primary" type="submit">Send</button>
+      
+      <!-- GitHub Pages compatible form -->
+      <form id="contactForm">
+        <div class="form-group">
+          <input type="text" id="name" name="name" placeholder="Your Name" required>
+        </div>
+        <div class="form-group">
+          <input type="email" id="email" name="email" placeholder="Email Address" required>
+        </div>
+        <div class="form-group">
+          <textarea id="message" name="message" rows="5" placeholder="Tell us about your project..." required></textarea>
+        </div>
+        <button class="btn primary" type="submit" id="submitBtn">Send Message</button>
+        <div class="form-status" id="formStatus"></div>
       </form>
+      
+      <div style="margin-top:2rem;padding:1rem;background:rgba(255,255,255,.03);border-radius:12px;border:1px solid rgba(255,255,255,.08)">
+        <p style="margin:0;color:var(--muted);font-size:.9rem">
+          <strong>Prefer to reach out directly?</strong><br>
+          Email: <a href="mailto:hello@bluegrasswebdesigns.com" style="color:var(--accent)">hello@bluegrasswebdesigns.com</a><br>
+          Phone: <a href="tel:+1234567890" style="color:var(--accent)">(123) 456-7890</a>
+        </p>
+      </div>
     </div>
   </section>
 
@@ -468,6 +539,66 @@
     };
     setShadow();
     window.addEventListener('scroll', setShadow);
+
+    // Enhanced form handling for GitHub Pages
+    const contactForm = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const formStatus = document.getElementById('formStatus');
+
+    function showStatus(message, type) {
+      formStatus.textContent = message;
+      formStatus.className = `form-status ${type}`;
+      formStatus.style.display = 'block';
+      setTimeout(() => {
+        formStatus.style.display = 'none';
+      }, 5000);
+    }
+
+    contactForm?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(contactForm);
+      const data = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        message: formData.get('message')
+      };
+
+      // Disable submit button
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+
+      try {
+        // Option 1: Use Formspree (free service for static sites)
+        const response = await fetch('https://formspree.io/f/YOUR_FORMSPREE_ID', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+          showStatus('Thanks! Your message has been sent successfully.', 'success');
+          contactForm.reset();
+        } else {
+          throw new Error('Network response was not ok');
+        }
+      } catch (error) {
+        // Fallback: mailto link (always works)
+        const subject = encodeURIComponent('Contact from ' + data.name);
+        const body = encodeURIComponent(`Name: ${data.name}\nEmail: ${data.email}\n\nMessage:\n${data.message}`);
+        const mailtoLink = `mailto:hello@bluegrasswebdesigns.com?subject=${subject}&body=${body}`;
+        
+        window.location.href = mailtoLink;
+        showStatus('Opening your email client...', 'success');
+      } finally {
+        // Re-enable submit button
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send Message';
+      }
+    });
 
     // Prefill contact message when choosing a plan
     document.querySelectorAll('[data-plan]').forEach(btn => {
