@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Bluegrass Web Designs — Web Design, Cloud Services & Data Engineering</title>
+  <meta name="description" content="Bluegrass Web Designs delivers custom website design, secure cloud services, and scalable data engineering for growing businesses. Get a free audit and accelerate your growth." />
+  <meta name="author" content="Bluegrass Web Designs" />
+
+  <style>
+    :root{
+      /* DARK THEME */
+      --bg:#0b1220;          /* deep navy */
+      --panel:#0f172a;       /* slate */
+      --text:#e6edf6;        /* near-white */
+      --muted:#a6b0c3;       /* muted text */
+      --accent:#3b82f6;      /* Kentucky blue */
+      --accent-2:#f59e0b;    /* bourbon gold */
+      --ring: rgba(59,130,246,.45);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+
+    /* Reset */
+    *,*::before,*::after{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial;
+      line-height:1.6;
+      color:var(--text);
+      background:
+        radial-gradient(1100px 500px at 15% -10%, rgba(59,130,246,.10), transparent 60%),
+        radial-gradient(900px 400px at 85% -15%, rgba(245,158,11,.08), transparent 60%),
+        var(--bg);
+    }
+    img{max-width:100%;display:block}
+    a{color:inherit}
+    h1,h2,h3{line-height:1.2;margin:0 0 .5rem}
+    p{margin:.25rem 0 1rem}
+    .container{max-width:1100px;margin:0 auto;padding:0 1rem}
+
+    /* Header */
+    header{
+      position:sticky;top:0;z-index:50;
+      background:linear-gradient(180deg, rgba(11,18,32,.9), rgba(11,18,32,.6));
+      backdrop-filter:saturate(1.2) blur(6px);
+      border-bottom:1px solid rgba(255,255,255,.06)
+    }
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:.75rem 0}
+    .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none}
+    .brand svg{width:28px;height:28px;filter:drop-shadow(0 2px 8px rgba(59,130,246,.35))}
+    .brand span{font-weight:700;letter-spacing:.4px}
+    .nav a.btn{margin-left:1rem}
+
+    /* Buttons */
+    .btn{
+      display:inline-block;padding:.7rem 1rem;border-radius:12px;
+      border:1px solid rgba(255,255,255,.12);text-decoration:none;transition:.2s ease;
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)
+    }
+    .btn:hover{transform:translateY(-1px);box-shadow:inset 0 0 0 1px rgba(245,158,11,.35), 0 6px 18px rgba(0,0,0,.25)}
+    .btn.primary{background:linear-gradient(180deg, var(--accent), #1d4ed8);color:#ffffff;border-color:transparent;font-weight:800}
+    .btn.ghost{background:transparent}
+
+    /* Hero */
+    .hero{padding:5rem 0 3rem}
+    .hero .title{font-size:clamp(1.9rem, 2.5vw + 1.2rem, 3rem);font-weight:800}
+    .subtitle{color:var(--muted);max-width:68ch}
+    .cta-row{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1rem}
+
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.08);border-radius:16px;box-shadow:var(--shadow)}
+    .illustration{padding:1.25rem}
+
+    /* Sections */
+    section{padding:4rem 0}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:1rem;margin-bottom:2rem}
+    .section-head p{color:var(--muted)}
+
+    /* Services */
+    .grid{display:grid;gap:1.25rem}
+    .grid.cols-3{grid-template-columns:repeat(3,1fr)}
+    .service{padding:1.25rem;border-radius:16px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015))}
+    .service h3{margin-bottom:.25rem}
+    .service p{color:var(--muted)}
+    .service .tag{display:inline-block;margin-top:.5rem;padding:.2rem .5rem;border-radius:999px;border:1px solid rgba(59,130,246,.35);color:var(--accent)}
+
+    /* Portfolio */
+    .portfolio{grid-template-columns:repeat(3,1fr)}
+    .shot{aspect-ratio:16/10;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg, rgba(59,130,246,.08), rgba(245,158,11,.08))}
+    .shot .label{padding:.5rem .75rem;font-size:.9rem}
+
+    /* Process */
+    .steps{grid-template-columns:repeat(4,1fr)}
+    .step{padding:1rem;border-radius:14px;border:1px solid rgba(255,255,255,.08)}
+    .step .num{font-weight:700;color:var(--accent)}
+
+    /* Pricing */
+    .pricing{grid-template-columns:repeat(3,1fr)}
+    .plan{padding:1.25rem;border-radius:16px;border:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015))}
+    .price{font-size:1.75rem;font-weight:800;margin:.25rem 0}
+    .plan ul{margin:.5rem 0 1rem;padding-left:1rem;color:var(--muted)}
+    .plan .btn{margin-top:auto}
+
+    /* Contact */
+    form{display:grid;gap:.8rem}
+    input, textarea{width:100%;padding:.8rem;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.03);color:var(--text)}
+    input:focus, textarea:focus{outline:2px solid var(--ring);border-color:transparent}
+
+    footer{padding:2rem 0;color:var(--muted);border-top:1px solid rgba(255,255,255,.08)}
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero-grid{grid-template-columns:1fr}
+      .grid.cols-3, .portfolio, .steps, .pricing{grid-template-columns:1fr}
+      .section-head{flex-direction:column;align-items:flex-start}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#home">
+        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 38l5-2 4 2 6-3 5 1 8-5 6 2 8-3 6 4-4 6-8 2H20l-8 2-6-6z"/>
+        </svg>
+        <span>Bluegrass Web Designs</span>
+      </a>
+      <nav>
+        <a class="btn" href="#services">Services</a>
+        <a class="btn" href="#work">Work</a>
+        <a class="btn" href="#pricing">Pricing</a>
+        <a class="btn primary" href="#contact">Free Audit</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- SEO-tuned HERO -->
+  <main id="home" class="hero" itemscope itemtype="https://schema.org/ProfessionalService">
+    <div class="container">
+      <h1 class="title" itemprop="name">
+        Web Design, Cloud Services & Data Engineering for Growing Businesses
+      </h1>
+
+      <p class="subtitle" itemprop="description">
+        We deliver <strong>custom website design</strong>, <strong>secure cloud infrastructure</strong>, and
+        <strong>scalable data engineering</strong>—so you can ship faster, reduce costs, and make smarter decisions.
+      </p>
+
+      <nav class="cta-row" aria-label="Primary calls to action">
+        <a class="btn primary"
+           href="#contact"
+           aria-label="Book your free website, cloud, and data audit">
+           Book Your Free Audit
+        </a>
+        <a class="btn"
+           href="#services"
+           aria-label="Explore our website design, cloud services, and data engineering">
+           Explore Services
+        </a>
+      </nav>
+
+      <p class="subtitle" style="margin-top:.5rem">
+        Explore our
+        <a href="#services">web design services</a>,
+        <a href="#services">cloud solutions</a>,
+        and
+        <a href="#services">data engineering</a>
+        to see how we can support your roadmap.
+      </p>
+    </div>
+  </main>
+
+  <section id="services">
+    <div class="container">
+      <div class="section-head">
+        <h2>Services</h2>
+        <p>Practical, reliable solutions tailored to your business.</p>
+      </div>
+      <div class="grid cols-3">
+        <div class="service">
+          <h3>Web Design</h3>
+          <p>Responsive, fast, and user-friendly websites that convert visitors into customers.</p>
+          <span class="tag">Showit · Custom</span>
+        </div>
+        <div class="service">
+          <h3>Cloud Services</h3>
+          <p>Deployment, automation, and cost optimization on leading cloud platforms.</p>
+          <span class="tag">Serverless · CI/CD · Security</span>
+        </div>
+        <div class="service">
+          <h3>Data Engineering</h3>
+          <p>Data pipelines, analytics, and dashboards to help you make smarter decisions.</p>
+          <span class="tag">BigQuery · ETL · BI</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="container">
+      <div class="section-head">
+        <h2>Work</h2>
+        <p>Recent projects and sample layouts.</p>
+      </div>
+      <div class="grid portfolio">
+        <div class="shot" aria-label="Agency Landing">Portfolio 1</div>
+        <div class="shot" aria-label="Business Site">Portfolio 2</div>
+        <div class="shot" aria-label="SaaS Product">Portfolio 3</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Pricing</h2>
+          <p>Transparent packages for projects and ongoing care. Custom quotes available.</p>
+        </div>
+        <a class="btn" href="#contact">Request a custom quote</a>
+      </div>
+
+      <!-- Project Packages -->
+      <h3 style="margin:0 0 .75rem">Project Packages</h3>
+      <div class="grid pricing" style="margin-bottom:2rem">
+        <article class="plan">
+          <h3>Starter</h3>
+          <div class="price">$995</div>
+          <ul>
+            <li>One-page site (up to 5 sections)</li>
+            <li>Basic SEO (titles, meta, alt)</li>
+            <li>Contact form + analytics</li>
+            <li>Launch in ~1 week</li>
+          </ul>
+          <a class="btn" href="#contact">Choose Starter</a>
+        </article>
+
+        <article class="plan">
+          <h3>Business</h3>
+          <div class="price">$2,500</div>
+          <ul>
+            <li>Up to 7 pages</li>
+            <li>Lead capture + CRM integration</li>
+            <li>Performance & accessibility pass</li>
+            <li>Launch in ~2–3 weeks</li>
+          </ul>
+          <a class="btn primary" href="#contact">Choose Business</a>
+        </article>
+
+        <article class="plan">
+          <h3>Scale</h3>
+          <div class="price">$4,800+</div>
+          <ul>
+            <li>Custom components & automations</li>
+            <li>Cloud deploy</li>
+            <li>Data pipeline kickoff</li>
+            <li>Roadmap workshop</li>
+          </ul>
+          <a class="btn" href="#contact">Choose Scale</a>
+        </article>
+      </div>
+
+      <!-- Monthly Care Plans -->
+      <h3 style="margin:0 0 .75rem">Monthly Care Plans</h3>
+      <div class="grid pricing">
+        <article class="plan">
+          <h3>Care</h3>
+          <div class="price">$79/mo</div>
+          <ul>
+            <li>Updates & backups</li>
+            <li>Security monitoring</li>
+            <li>Uptime alerts</li>
+          </ul>
+          <a class="btn" href="#contact">Choose Care</a>
+        </article>
+
+        <article class="plan">
+          <h3>Care + Content</h3>
+          <div class="price">$179/mo</div>
+          <ul>
+            <li>Everything in Care</li>
+            <li>1 content update / month</li>
+            <li>Quarterly performance report</li>
+          </ul>
+          <a class="btn primary" href="#contact">Choose Care + Content</a>
+        </article>
+
+        <article class="plan">
+          <h3>Growth</h3>
+          <div class="price">$399/mo</div>
+          <ul>
+            <li>Everything in Care + Content</li>
+            <li>Conversion testing</li>
+            <li>Basic SEO & insights</li>
+          </ul>
+          <a class="btn" href="#contact">Choose Growth</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <div class="section-head">
+        <h2>Contact Us</h2>
+        <p>Book a free audit or ask about our services.</p>
+      </div>
+      <!-- Netlify-ready static form (optional) -->
+      <form name="contact" method="post" data-netlify="true">
+        <input type="hidden" name="form-name" value="contact">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <textarea name="message" rows="4" placeholder="Message"></textarea>
+        <button class="btn primary" type="submit">Send</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">© <span id="year"></span> Bluegrass Web Designs</div>
+  </footer>
+
+  <!-- Organization schema (global, no location) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Bluegrass Web Designs",
+    "url": "https://www.bluegrasswebdesigns.com",
+    "description": "Custom website design, secure cloud services, and scalable data engineering for growing businesses.",
+    "areaServed": "Global",
+    "sameAs": [
+      "https://www.linkedin.com/company/bluegrass-web-designs"
+    ]
+  }
+  </script>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
